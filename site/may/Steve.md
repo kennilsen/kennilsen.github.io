@@ -9,4 +9,4 @@
 # Continue
 * Consider adding dark mode support
 * Let's add more unit tests
-* Documentation needs to be updated 
+* Documentation needs to be updated > docs

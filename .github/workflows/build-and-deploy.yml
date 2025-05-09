@@ -1,0 +1,57 @@
+name: Build and Deploy Console Output to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Or your default branch
+
+  # Optional: Also deploy on manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # Adjust to your project's SDK version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run the console app
+        run: dotnet run --configuration Release --project ./YourConsoleApp.csproj
+
+      - name: Upload output as artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./output  # Replace with the path where your app writes files
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
