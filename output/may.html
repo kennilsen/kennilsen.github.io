@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Whiteboard - may</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .whiteboard {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 80vh;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .column-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .sticky-note {
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+            word-wrap: break-word;
+            position: relative;
+            transform: rotate(1deg);
+            transition: transform 0.2s;
+        }
+        .sticky-note.stacked {
+            cursor: pointer;
+        }
+        .sticky-note.stacked:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 2;
+        }
+        .sticky-note.stacked:hover .note-count {
+            display: none;
+        }
+        .note-tag {
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .sticky-note.stacked:hover::after {
+            content: 'Click to expand';
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            color: rgba(0,0,0,0.5);
+        }
+        .note-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.1);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        .sticky-note:not(.stacked):hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 1;
+        }
+        .sticky-note:not(.stacked)::after {
+            content: attr(data-person);
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            color: rgba(0,0,0,0.5);
+        }
+        .note-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .popup-tag {
+            font-size: 16px;
+            font-weight: bold;
+            color: #666;
+            padding: 5px 0;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 10px;
+        }
+        .grouped-note {
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .note-author {
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+            text-align: right;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.sticky-note.stacked').forEach(note => {
+                note.addEventListener('click', function() {
+                    const popup = this.querySelector('.note-popup');
+                    if (popup.style.display === 'flex') {
+                        popup.style.display = 'none';
+                    } else {
+                        popup.style.display = 'flex';
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>may</h1>
+    <div class='whiteboard'>
+        
+        <div class='column' style='background-color: #4caf50'>
+            <div class='column-title'>Start</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Implement automated testing pipeline</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Add user feedback collection system</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Create onboarding documentation</div>
+            <div class='sticky-note' data-person='Ken' style='background-color: #98fb98'>This is the first note</div>
+            <div class='sticky-note' data-person='Ken' style='background-color: #98fb98'>This is the second note</div>
+            <div class='sticky-note' data-person='Steve' style='background-color: #ff1493'>We should improve the user interface</div>
+            <div class='sticky-note' data-person='Steve' style='background-color: #ff1493'>Need to add more error handling</div>
+        </div>
+        
+        <div class='column' style='background-color: #f44336'>
+            <div class='column-title'>Stop</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Manual deployment process</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Using outdated libraries</div>
+            <div class='sticky-note' data-person='Ken' style='background-color: #98fb98'>This is the third note</div>
+            <div class='sticky-note' data-person='Steve' style='background-color: #ff1493'>Should we migrate to the latest framework?</div>
+            <div class='sticky-note stacked' style='background-color: #afeeee' data-count='3'>
+                            <div class='note-content'>Skipping code reviews</div>
+                            <div class='note-tag'>#process</div>
+                            <div class='note-count'>+2</div>
+                            <div class='note-popup'>
+                                <div class='popup-content'>
+                                    <div class='popup-tag'>Tag: process</div>
+                                    <div class='grouped-note' style='background-color: #afeeee'><span class='note-content'>Skipping code reviews</span><span class='note-author'>Anne</span></div>
+<div class='grouped-note' style='background-color: #98fb98'><span class='note-content'>This is the fourth note</span><span class='note-author'>Ken</span></div>
+<div class='grouped-note' style='background-color: #ff1493'><span class='note-content'>The loading time is too slow</span><span class='note-author'>Steve</span></div>
+                                </div>
+                            </div>
+                        </div>
+        </div>
+        
+        <div class='column' style='background-color: #ffeb3b'>
+            <div class='column-title'>Continue</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Code documentation updates</div>
+            <div class='sticky-note' data-person='Anne' style='background-color: #afeeee'>Regular security audits</div>
+            <div class='sticky-note' data-person='Ken' style='background-color: #98fb98'>This is the fifth note</div>
+            <div class='sticky-note' data-person='Ken' style='background-color: #98fb98'>This is the seventh note</div>
+            <div class='sticky-note' data-person='Steve' style='background-color: #ff1493'>Consider adding dark mode support</div>
+            <div class='sticky-note' data-person='Steve' style='background-color: #ff1493'>Let's add more unit tests</div>
+            <div class='sticky-note stacked' style='background-color: #afeeee' data-count='2'>
+                            <div class='note-content'>Weekly team sync meetings</div>
+                            <div class='note-tag'>#process</div>
+                            <div class='note-count'>+1</div>
+                            <div class='note-popup'>
+                                <div class='popup-content'>
+                                    <div class='popup-tag'>Tag: process</div>
+                                    <div class='grouped-note' style='background-color: #afeeee'><span class='note-content'>Weekly team sync meetings</span><span class='note-author'>Anne</span></div>
+<div class='grouped-note' style='background-color: #afeeee'><span class='note-content'>Performance monitoring</span><span class='note-author'>Anne</span></div>
+                                </div>
+                            </div>
+                        </div>
+            <div class='sticky-note stacked' style='background-color: #98fb98' data-count='2'>
+                            <div class='note-content'>This is the sixth note</div>
+                            <div class='note-tag'>#docs</div>
+                            <div class='note-count'>+1</div>
+                            <div class='note-popup'>
+                                <div class='popup-content'>
+                                    <div class='popup-tag'>Tag: docs</div>
+                                    <div class='grouped-note' style='background-color: #98fb98'><span class='note-content'>This is the sixth note</span><span class='note-author'>Ken</span></div>
+<div class='grouped-note' style='background-color: #ff1493'><span class='note-content'>Documentation needs to be updated</span><span class='note-author'>Steve</span></div>
+                                </div>
+                            </div>
+                        </div>
+        </div>
+    </div>
+</body>
+</html>
