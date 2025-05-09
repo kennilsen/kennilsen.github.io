@@ -5,6 +5,7 @@
 # Stop
 * This is the third note
 * This is the fourth note > process
+* This note is added right now
 
 # Continue
 * This is the fifth note
