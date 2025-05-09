@@ -37,7 +37,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run the console app
-        run: dotnet run --configuration Release --project ./YourConsoleApp.csproj
+        run: dotnet run --configuration Release
 
       - name: Upload output as artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v2
